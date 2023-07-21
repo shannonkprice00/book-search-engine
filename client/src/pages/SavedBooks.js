@@ -32,14 +32,6 @@ const SavedBooks = () => {
           return false;
         }
 
-        // const response = await getMe(token);
-
-        // if (!response.ok) {
-        //   throw new Error('something went wrong!');
-        // }
-
-        // const user = await response.json();
-        // setUserData(user);
         const { data } = await QUERY_ME(userData)
       } catch (err) {
         console.error(err);
@@ -58,14 +50,6 @@ const SavedBooks = () => {
     }
 
     try {
-      // const response = await deleteBook(bookId, token);
-
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-
-      // const updatedUser = await response.json();
-      // setUserData(updatedUser);
       const { data } = await removeBook({
         variables: { bookId: {...bookId} }
       })

@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import SearchBooks from "./pages/SearchBooks";
 import SavedBooks from "./pages/SavedBooks";
-4;
 import Navbar from "./components/Navbar";
 import SignupForm from "./components/SignupForm";
 import LoginForm from "./components/LoginForm";

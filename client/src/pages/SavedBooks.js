@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Container,
   Card,
@@ -9,14 +9,14 @@ import {
 
 // import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
-import { QUERY_ME } from '../utils/queries';
+import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import { removeBookId } from '../utils/localStorage';
 import { useQuery, useMutation } from '@apollo/client';
 
 const SavedBooks = () => {
   // const [userData, setUserData] = useState({});
-  const { loading, data } = useQuery(QUERY_ME);
+  const { loading, data } = useQuery(GET_ME);
   const [removeBook, { error }] = useMutation(REMOVE_BOOK); 
   const userData = data?.me || {}
 
@@ -60,8 +60,9 @@ const SavedBooks = () => {
 
     try {
       const { data } = await removeBook({
-        variables: { bookId}
+        variables: { bookId }
       })
+      console.log(data);
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -90,7 +91,7 @@ const SavedBooks = () => {
         <Row>
           {userData.savedBooks.map((book) => {
             return (
-              <Col md="4">
+              <Col key={`col-${book.bookId}`} md="4">
                 <Card key={book.bookId} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>

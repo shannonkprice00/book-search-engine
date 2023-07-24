@@ -30,24 +30,33 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (parent, { input: BookInput }, context) => {
+    saveBook: async (parent, { newBook }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
-          {
-            $addToSet: {
-              savedBooks: { input: BookInput },
-            },
-          },
+          { $addToSet: { savedBooks: newBook }},
           { new: true }
         );
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    // saveBook: async (parent, { bookData }, context) => {
+    //   if (context.user) {
+    //     const updatedUser = await User.findByIdAndUpdate(
+    //       { _id: context.user._id },
+    //       { $push: { savedBooks: bookData } },
+    //       { new: true }
+    //     );
+
+    //     return updatedUser;
+    //   }
+
+    //   throw AuthenticationError;
+    // },
     removeBook: async (parent, { bookId }, context) => {
         if (context.user) {
             return User.findOneAndUpdate(
-                {  },
+                { _id: context.user._id },
                 { $pull: { savedBooks: bookId } },
                 { new: true },
             );

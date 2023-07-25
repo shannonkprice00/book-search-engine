@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Form, Button, Card, Row } from "react-bootstrap";
-
 import Auth from "../utils/auth";
 // import { searchGoogleBooks } from "../utils/API";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
@@ -29,7 +28,9 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchInput}`);
+      const response = await fetch(
+        `https://www.googleapis.com/books/v1/volumes?q=${searchInput}`
+      );
 
       if (!response.ok) {
         throw new Error("something went wrong!");
@@ -43,6 +44,7 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || "",
+        link: book.volumeInfo.infoLink,
       }));
 
       setSearchedBooks(bookData);
@@ -54,7 +56,6 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
-    console.log(bookId);
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
     // get token
@@ -65,7 +66,7 @@ const SearchBooks = () => {
     }
     try {
       const { data } = await saveBook({
-        variables: { newBook: { ...bookToSave }},
+        variables: { newBook: { ...bookToSave } },
       });
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
@@ -121,7 +122,13 @@ const SearchBooks = () => {
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
                     <p className="small">Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Text>
+                      {book.description}{" "}
+                      <a className="link" href={book.link} target="_blank">
+                         (Click here for more info)
+                      </a>{" "}
+                    </Card.Text>
+
                     {Auth.loggedIn() && (
                       <Button
                         disabled={savedBookIds?.some(

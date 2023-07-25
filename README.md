@@ -13,7 +13,7 @@ Google Books API search engine built with GraphQL and Apollo Server. The app use
 N/A
 
 ## Usage
-You can use this application by clicking [here](#). <br>
+You can use this application by clicking [here](https://pure-beach-47354-82ea34555a5e.herokuapp.com/). <br>
 Visiting the link above will open the application which will display the following: <br>
 <br> <img src="./client/public/assets/images/screenshot1.png" style="border: 1px solid blue;" width=100% /> <br><br>
 You can search for books using the Google Books API prior to logging in or creating an account, but you will need to login/sign up in order to save books or delete previously saved books. <br>
